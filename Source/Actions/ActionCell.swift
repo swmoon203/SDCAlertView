@@ -2,20 +2,20 @@ import UIKit
 
 final class ActionCell: UICollectionViewCell {
 
-    @IBOutlet private(set) var titleLabel: UILabel!
-    @IBOutlet private var highlightedBackgroundView: UIView!
+    @IBOutlet fileprivate(set) var titleLabel: UILabel!
+    @IBOutlet fileprivate var highlightedBackgroundView: UIView!
 
-    private var textColor: UIColor?
+    fileprivate var textColor: UIColor?
     
     var enabled = true {
-        didSet { self.titleLabel.enabled = self.enabled }
+        didSet { self.titleLabel.isEnabled = self.enabled }
     }
 
-    override var highlighted: Bool {
-        didSet { self.highlightedBackgroundView.hidden = !self.highlighted }
+    override var isHighlighted: Bool {
+        didSet { self.highlightedBackgroundView.isHidden = !self.isHighlighted }
     }
 
-    func setAction(action: AlertAction, withVisualStyle visualStyle: AlertVisualStyle) {
+    func setAction(_ action: AlertAction, withVisualStyle visualStyle: AlertVisualStyle) {
         action.actionView = self
 
         self.titleLabel.font = visualStyle.font(forAction: action)
@@ -40,8 +40,8 @@ final class ActionCell: UICollectionViewCell {
 
 final class ActionSeparatorView: UICollectionReusableView {
 
-    override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
-        super.applyLayoutAttributes(layoutAttributes)
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
 
         if let attributes = layoutAttributes as? ActionsCollectionViewLayoutAttributes {
             self.backgroundColor = attributes.backgroundColor

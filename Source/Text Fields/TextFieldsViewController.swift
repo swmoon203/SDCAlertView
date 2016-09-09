@@ -5,7 +5,7 @@ private let kTextFieldCellIdentifier = "textFieldCell"
 final class TextFieldsViewController: UIViewController {
 
     var requiredHeight: CGFloat {
-        return self.tableView.rowHeight * CGFloat(self.tableView.numberOfRowsInSection(0))
+        return self.tableView.rowHeight * CGFloat(self.tableView.numberOfRows(inSection: 0))
     }
 
     var visualStyle: AlertVisualStyle? {
@@ -15,8 +15,8 @@ final class TextFieldsViewController: UIViewController {
         }
     }
 
-    private let tableView = UITableView(frame: .zero, style: .Plain)
-    private let textFields: [UITextField]
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let textFields: [UITextField]
 
     init(textFields: [UITextField]) {
         self.textFields = textFields
@@ -30,12 +30,12 @@ final class TextFieldsViewController: UIViewController {
     }
 
     override func loadView() {
-        let nibName = NSStringFromClass(TextFieldCell).componentsSeparatedByString(".").last!
-        let cellNib = UINib(nibName: nibName, bundle: NSBundle(forClass: self.dynamicType))
-        self.tableView.registerNib(cellNib, forCellReuseIdentifier: kTextFieldCellIdentifier)
+        let nibName = NSStringFromClass(TextFieldCell).components(separatedBy: ".").last!
+        let cellNib = UINib(nibName: nibName, bundle: Bundle(for: type(of: self)))
+        self.tableView.register(cellNib, forCellReuseIdentifier: kTextFieldCellIdentifier)
         self.tableView.dataSource = self
-        self.tableView.separatorStyle = .None
-        self.tableView.scrollEnabled = false
+        self.tableView.separatorStyle = .none
+        self.tableView.isScrollEnabled = false
 
         self.view = tableView
     }
@@ -43,16 +43,16 @@ final class TextFieldsViewController: UIViewController {
 
 extension TextFieldsViewController: UITableViewDataSource {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.textFields.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
         -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier(kTextFieldCellIdentifier,
-            forIndexPath: indexPath) as? TextFieldCell
-        cell?.textField = self.textFields[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: kTextFieldCellIdentifier,
+            for: indexPath) as? TextFieldCell
+        cell?.textField = self.textFields[(indexPath as NSIndexPath).row]
         cell?.visualStyle = self.visualStyle
         return cell!
     }

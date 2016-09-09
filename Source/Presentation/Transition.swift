@@ -2,25 +2,25 @@ import UIKit
 
 class Transition: NSObject, UIViewControllerTransitioningDelegate {
 
-    private let alertStyle: AlertControllerStyle
+    fileprivate let alertStyle: AlertControllerStyle
 
     init(alertStyle: AlertControllerStyle) {
         self.alertStyle = alertStyle
     }
 
-    func presentationControllerForPresentedViewController(presented: UIViewController,
-        presentingViewController presenting: UIViewController?, sourceViewController source: UIViewController)
+    func presentationController(forPresented presented: UIViewController,
+        presenting: UIViewController?, source: UIViewController)
         -> UIPresentationController?
     {
         return PresentationController(presentedViewController: presented,
-                presentingViewController: presenting)
+                presenting: presenting)
     }
 
-    func animationControllerForPresentedController(presented: UIViewController,
-        presentingController presenting: UIViewController, sourceController source: UIViewController)
+    func animationController(forPresented presented: UIViewController,
+        presenting: UIViewController, source: UIViewController)
         -> UIViewControllerAnimatedTransitioning?
     {
-        if self.alertStyle == .ActionSheet {
+        if self.alertStyle == .actionSheet {
             return nil
         }
 
@@ -29,9 +29,9 @@ class Transition: NSObject, UIViewControllerTransitioningDelegate {
         return animationController
     }
 
-    func animationControllerForDismissedController(dismissed: UIViewController)
+    func animationController(forDismissed dismissed: UIViewController)
         -> UIViewControllerAnimatedTransitioning?
     {
-        return self.alertStyle == .Alert ? AnimationController() : nil
+        return self.alertStyle == .alert ? AnimationController() : nil
     }
 }

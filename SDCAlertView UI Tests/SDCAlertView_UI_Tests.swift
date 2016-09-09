@@ -13,26 +13,26 @@ class SDCAlertView_UI_Tests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func currentAlert() -> XCUIElement {
-        return XCUIApplication().childrenMatchingType(.Window)
-                                .elementBoundByIndex(0)
-                                .childrenMatchingType(.Other)
-                                .elementBoundByIndex(1)
-                                .childrenMatchingType(.Other)
-                                .elementBoundByIndex(1)
+    fileprivate func currentAlert() -> XCUIElement {
+        return XCUIApplication().children(matching: .window)
+                                .element(boundBy: 0)
+                                .children(matching: .other)
+                                .element(boundBy: 1)
+                                .children(matching: .other)
+                                .element(boundBy: 1)
     }
 
-    private func buttonAtIndex(index: UInt) -> XCUIElement {
-        return XCUIApplication().collectionViews.childrenMatchingType(.Cell).elementBoundByIndex(index)
+    fileprivate func buttonAtIndex(_ index: UInt) -> XCUIElement {
+        return XCUIApplication().collectionViews.children(matching: .cell).element(boundBy: index)
     }
 
-    private func showAlertAtIndex(index: UInt) -> XCUIApplication {
+    fileprivate func showAlertAtIndex(_ index: UInt) -> XCUIApplication {
         let app = XCUIApplication()
-        app.tables.childrenMatchingType(.Cell).elementBoundByIndex(index).tap()
+        app.tables.children(matching: .cell).element(boundBy: index).tap()
         return app
     }
 
-    private func tapButtonAtIndex(index: UInt, expectDismissal: Bool = true) {
+    fileprivate func tapButtonAtIndex(_ index: UInt, expectDismissal: Bool = true) {
         buttonAtIndex(index).tap()
         XCTAssertNotEqual(currentAlert().exists, expectDismissal)
     }
